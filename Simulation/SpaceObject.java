@@ -1,7 +1,7 @@
 /**
  * SpaceObject
  */
-public class SpaceObject {
+public class SpaceObject extends Sphere{
 
     private double mass; //mass of the object (10e24 kg)
     private double diameter; //diameter of the object (km)
