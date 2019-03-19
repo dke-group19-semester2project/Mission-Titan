@@ -57,17 +57,18 @@ public class SpaceObject {
     }
 
     public CartesianCoordinates polarToCartesian(PolarCoordinates pC){
+        double x,y,z;
         if (this.isMoon()){
             SpaceObject o = this.getMoonOf();
             PolarCoordinates p = this.getMoonOf().orbitPos();
-            double x = p.getR() * Math.cos(p.getAngle()) - pC.getR() * Math.cos(pC.getAngle());
-            double y = p.getR() * Math.sin(p.getAngle()) - pC.getR() * Math.sin(pC.getAngle());
-            double z = Math.sin(o.getOrbitalInclination()) * p.getR() - Math.sin(this.getOrbitalInclination()) * this.getR() ;
+            x = p.getR() * Math.cos(p.getAngle()) - pC.getR() * Math.cos(pC.getAngle());
+            y = p.getR() * Math.sin(p.getAngle()) - pC.getR() * Math.sin(pC.getAngle());
+            z = Math.sin(o.getOrbitalInclination()) * p.getR() - Math.sin(this.getOrbitalInclination()) * this.getR() ;
         }
         else {
-            double x = pC.getR() * Math.cos(pC.getAngle());
-            double y = pC.getR() * Math.sin(pC.getAngle());
-            double z = Math.sin(this.getOrbitalInclination()) * pC.getR();
+            x = pC.getR() * Math.cos(pC.getAngle());
+            y = pC.getR() * Math.sin(pC.getAngle());
+            z = Math.sin(this.getOrbitalInclination()) * pC.getR();
         }
         return new CartesianCoordinates(x, y, z);
     }
