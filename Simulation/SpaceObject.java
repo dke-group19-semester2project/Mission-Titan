@@ -1,28 +1,81 @@
 /**
  * SpaceObject
  */
-public class SpaceObject extends Sphere{
-
-    private double mass; //mass of the object (10e24 kg)
-    private double diameter; //diameter of the object (km)
-    private double escapeVelocity; //speed needed to escape gravitational force (km/s)
-    private double gravity; //gravitational acceleration (m/s^2)
-    private double distanceToSun; //distance from object to the sun (10e6 km)
-    private double orbitalPeriod; //days needed to do one full tour of the orbit (days)
-    private double orbitalVelocity; //speed on the orbit (km/s)
-    private double orbitalInclination; //inclination to the plane sun - earth of the orbit
-    private double orbitalEccentricity; //eccentricity of the orbit
-    private int numberOfMoons; //number of objects turning around the object
-    private SpaceObject[] moonList; //list of the moons
-    private double a; //semi-major axis
-    private double timeAngle0; //time at which planet has angle 0 (ms)
-    private static double gravitationalConstant = 6.67553 * 10e-11; //gravitational constant (m^3 / kg * s^2)
+public class SpaceObject /*extends Sphere*/ {
+/*
+    private double mass; // mass of the object (10e24 kg)
+    private double diameter; // diameter of the object (km)
+    private double escapeVelocity; // speed needed to escape gravitational force (km/s)
+    private double gravity; // gravitational acceleration (m/s^2)
+    private double distanceToSun; // distance from object to the sun (10e6 km)
+    private double orbitalPeriod; // days needed to do one full tour of the orbit (days)
+    private double orbitalVelocity; // speed on the orbit (km/s)
+    private double orbitalInclination; // inclination to the plane sun - earth of the orbit
+    private double orbitalEccentricity; // eccentricity of the orbit
+    private int numberOfMoons; // number of objects turning around the object
+    private SpaceObject[] moonList; // list of the moons
+    private double a; // semi-major axis
+    private double timeAngle0; // time at which planet has angle 0 (ms)
+    private static double gravitationalConstant = 6.67553 * 10e-11; // gravitational constant (m^3 / kg * s^2)
     private PolarCoordinates pCoordinates; // coordinates of the planet in polar coodinates
-    private CartesianCoordinates cCoordinates; //coordinates of the planet in cartesian coordinates
+    private CartesianCoordinates cCoordinates; // coordinates of the planet in cartesian coordinates
+    private CartesianCoordinates direction;
+    private CartesianCoordinates velocity;
+    private double angle;
     private boolean isMoon;
-    private SpaceObject moonOf;
+    private SpaceObject moonOf;*/
+    private final static double DAYTOMILI = 86400000;
 
-    public SpaceObject(double mass,double distanceToSun, double orbitalVelocity,double orbitalEccentricity, double a){
+    private String name;
+    private double a;
+    private double orbitalEccentricity;
+    private double timeI;
+    private double r;
+    private double theta;
+    private double x;
+    private double y;
+    private double z;
+    private double xI;
+    private double yI;
+    private double zI;
+    private double rI;
+    private double orbitPeriod; 
+    private double angularSpeed;
+    
+    public void calcR() {
+        this.rI = Math.sqrt(xI * xI + yI * yI);
+    }
+
+    public SpaceObject(String name,double x,double y,double time,double orbitPeriod,double semiMajorAxis,double eccentricity){
+        this.name = name;
+        this.xI = x;
+        this.yI = y;
+        a = semiMajorAxis;
+        this.orbitalEccentricity = eccentricity;
+        calcR();
+        this.orbitPeriod = orbitPeriod;
+        angularSpeed = 2*Math.PI*a/orbitPeriod;
+        theta = Math.atan(yI/xI);
+        timeI = theta / angularSpeed;
+    }
+
+    public double[] orbitXY(double time) {
+        double theta = (time - timeI) * angularSpeed ;
+        double r = (this.a * (1 - orbitalEccentricity * orbitalEccentricity) / (1 + orbitalEccentricity * Math.cos(theta)));
+        double[] output = new double[2];
+        output[0] = r * Math.cos(theta);
+        output[1] = r * Math.sin(theta);
+        return output;
+    }
+
+    public static void main(String[] args) {
+        SpaceObject test = new SpaceObject("mars",1.32,0.496,0.0,687.0 * DAYTOMILI,1.5273,0.094);
+        double[] t = test.orbitXY(System.currentTimeMillis());
+        System.out.println(t[0]+" "+t[1]);
+    }
+/*
+    public SpaceObject(double mass, double distanceToSun, double orbitalVelocity, double orbitalEccentricity,
+            double a) {
         this.mass = mass;
         this.distanceToSun = distanceToSun;
         this.orbitalVelocity = orbitalVelocity;
@@ -30,42 +83,50 @@ public class SpaceObject extends Sphere{
         this.a = a;
     }
 
-    public SpaceObject(){
+    public SpaceObject() {
     }
-
 
     public PolarCoordinates orbitPos() {
         double time = (System.currentTimeMillis() - timeAngle0) * 1000;
-        double angle = orbitalVelocity * time; //radians
-        double r = (this.a * (1 - Math.pow(orbitalEccentricity,2)/(1+orbitalEccentricity * Math.cos(angle))));
-        return new PolarCoordinates(r,angle);
+        double angle = orbitalVelocity * time; // radians
+        this.setAngle(angle);
+        double r = (this.a * (1 - Math.pow(orbitalEccentricity, 2) / (1 + orbitalEccentricity * Math.cos(this.getAngle()))));
+        this.setpCoordinates(new PolarCoordinates(r,this.getAngle()));
+        return new PolarCoordinates(r, angle);
     }
 
-    //t ms for java system at chosen time
-    public PolarCoordinates orbitPos(double t){
+    // t ms for java system at chosen time
+    public PolarCoordinates orbitPos(double t) {
         double time = (t - timeAngle0) * 1000;
-        double angle = orbitalVelocity * time; //radians
-        double r = (this.a * (1 - Math.pow(orbitalEccentricity,2)/(1+orbitalEccentricity * Math.cos(angle))));
-        return new PolarCoordinates(r,angle);
+        double angle = orbitalVelocity * time; // radians
+        this.setAngle(angle);
+        double r = (this.a * (1 - Math.pow(orbitalEccentricity, 2) / (1 + orbitalEccentricity * Math.cos(this.getAngle()))));
+        this.setpCoordinates(new PolarCoordinates(r,this.getAngle()));
+        return new PolarCoordinates(r, angle);
     }
 
-    public double gravForce(SpaceObject o){
-        double mass = Math.max(this.mass,o.mass);
+    public PolarCoordinates orbitPosAngle(){
+        double r = (this.a * (1 - Math.pow(orbitalEccentricity, 2) / (1 + orbitalEccentricity * Math.cos(this.getAngle()))));
+        this.setpCoordinates(new PolarCoordinates(r,this.getAngle()));
+        return new PolarCoordinates(r, angle);
+    }
+
+    public double gravForce(SpaceObject o) {
+        double mass = Math.max(this.mass, o.mass);
         double distance = Math.abs(this.distanceToSun - o.distanceToSun);
-        double force = (gravitationalConstant * mass)/(Math.pow(distance, 2));
+        double force = (gravitationalConstant * mass) / (Math.pow(distance, 2));
         return force;
     }
 
-    public CartesianCoordinates polarToCartesian(PolarCoordinates pC){
-        double x,y,z;
-        if (this.isMoon()){
+    public CartesianCoordinates polarToCartesian(PolarCoordinates pC) {
+        double x, y, z;
+        if (this.isMoon()) {
             SpaceObject o = this.getMoonOf();
             PolarCoordinates p = this.getMoonOf().orbitPos();
             x = p.getR() * Math.cos(p.getAngle()) - pC.getR() * Math.cos(pC.getAngle());
             y = p.getR() * Math.sin(p.getAngle()) - pC.getR() * Math.sin(pC.getAngle());
-            z = Math.sin(o.getOrbitalInclination()) * p.getR() - Math.sin(this.getOrbitalInclination()) * this.getR() ;
-        }
-        else {
+            z = Math.sin(o.getOrbitalInclination()) * p.getR() - Math.sin(this.getOrbitalInclination()) * this.getR();
+        } else {
             x = pC.getR() * Math.cos(pC.getAngle());
             y = pC.getR() * Math.sin(pC.getAngle());
             z = Math.sin(this.getOrbitalInclination()) * pC.getR();
@@ -73,241 +134,27 @@ public class SpaceObject extends Sphere{
         return new CartesianCoordinates(x, y, z);
     }
 
-    /**
-     * @return the mass
-     */
-    public double getMass() {
-        return mass;
+    public void move() {
+        this.setcCoordinates(new CartesianCoordinates(this.cCoordinates.getX() + this.getVelocity().getX(),this.cCoordinates.getY() + this.getVelocity().getY()));
     }
 
-    /**
-     * @param mass the mass to set
-     */
-    public void setMass(double mass) {
-        this.mass = mass;
+    public void update(SpaceObject o) {
+
+        this.pCoordinates.setR(Math.sqrt(Math.pow((o.cCoordinates.getX() - this.cCoordinates.getX()),2) + ath.pow((o.cCoordinates.getY() - this.cCoordinates.getY()),2)));
+        
+        double acc = o.getMass()/(Math.pow(this.pCoordinates.getR(),2));
+
+        this.getDirection().setX((o.cCoordinates.getX() - this.cCoordinates.getX()) / this.pCoordinates.getR());
+        this.getDirection().setY((o.cCoordinates.getY() - this.cCoordinates.getY()) / this.pCoordinates.getR());
+        
+        this.setDirection(new CartesianCoordinates((o.cCoordinates.getX() - this.cCoordinates.getX()) / this.pCoordinates.getR(),(o.cCoordinates.getY() - this.cCoordinates.getY()) / this.pCoordinates.getR()));
+
+        this.setVelocity(new CartesianCoordinates(this.getVelocity().getX() + this.getDirection().getX() * acc, this.getVelocity().getY() + this.getDirection().getY() * acc));
+        this.move();
+
     }
 
-    /**
-     * @return the diameter
-     */
-    public double getDiameter() {
-        return diameter;
-    }
 
-    /**
-     * @param diameter the diameter to set
-     */
-    public void setDiameter(double diameter) {
-        this.diameter = diameter;
-    }
+*/
 
-    /**
-     * @return the escapeVelocity
-     */
-    public double getEscapeVelocity() {
-        return escapeVelocity;
-    }
-
-    /**
-     * @param escapeVelocity the escapeVelocity to set
-     */
-    public void setEscapeVelocity(double escapeVelocity) {
-        this.escapeVelocity = escapeVelocity;
-    }
-
-    /**
-     * @return the gravity
-     */
-    public double getGravity() {
-        return gravity;
-    }
-
-    /**
-     * @param gravity the gravity to set
-     */
-    public void setGravity(double gravity) {
-        this.gravity = gravity;
-    }
-
-    /**
-     * @return the distanceToSun
-     */
-    public double getDistanceToSun() {
-        return distanceToSun;
-    }
-
-    /**
-     * @param distanceToSun the distanceToSun to set
-     */
-    public void setDistanceToSun(double distanceToSun) {
-        this.distanceToSun = distanceToSun;
-    }
-
-    /**
-     * @return the orbitalPeriod
-     */
-    public double getOrbitalPeriod() {
-        return orbitalPeriod;
-    }
-
-    /**
-     * @param orbitalPeriod the orbitalPeriod to set
-     */
-    public void setOrbitalPeriod(double orbitalPeriod) {
-        this.orbitalPeriod = orbitalPeriod;
-    }
-
-    /**
-     * @return the orbitalVelocity
-     */
-    public double getOrbitalVelocity() {
-        return orbitalVelocity;
-    }
-
-    /**
-     * @param orbitalVelocity the orbitalVelocity to set
-     */
-    public void setOrbitalVelocity(double orbitalVelocity) {
-        this.orbitalVelocity = orbitalVelocity;
-    }
-
-    /**
-     * @return the orbitalInclination
-     */
-    public double getOrbitalInclination() {
-        return orbitalInclination;
-    }
-
-    /**
-     * @param orbitalInclination the orbitalInclination to set
-     */
-    public void setOrbitalInclination(double orbitalInclination) {
-        this.orbitalInclination = orbitalInclination;
-    }
-
-    /**
-     * @return the orbitalEccentricity
-     */
-    public double getOrbitalEccentricity() {
-        return orbitalEccentricity;
-    }
-
-    /**
-     * @param orbitalEccentricity the orbitalEccentricity to set
-     */
-    public void setOrbitalEccentricity(double orbitalEccentricity) {
-        this.orbitalEccentricity = orbitalEccentricity;
-    }
-
-    /**
-     * @return the numberOfMoons
-     */
-    public int getNumberOfMoons() {
-        return numberOfMoons;
-    }
-
-    /**
-     * @param numberOfMoons the numberOfMoons to set
-     */
-    public void setNumberOfMoons(int numberOfMoons) {
-        this.numberOfMoons = numberOfMoons;
-    }
-
-    /**
-     * @return the moonList
-     */
-    public SpaceObject[] getMoonList() {
-        return moonList;
-    }
-
-    /**
-     * @param moonList the moonList to set
-     */
-    public void setMoonList(SpaceObject[] moonList) {
-        this.moonList = moonList;
-    }
-
-    /**
-     * @return the a
-     */
-    public double getA() {
-        return a;
-    }
-
-    /**
-     * @param a the a to set
-     */
-    public void setA(double a) {
-        this.a = a;
-    }
-
-    /**
-     * @return the timeAngle0
-     */
-    public double getTimeAngle0() {
-        return timeAngle0;
-    }
-
-    /**
-     * @param timeAngle0 the timeAngle0 to set
-     */
-    public void setTimeAngle0(double timeAngle0) {
-        this.timeAngle0 = timeAngle0;
-    }
-
-    /**
-     * @return the pCoordinates
-     */
-    public PolarCoordinates getpCoordinates() {
-        return pCoordinates;
-    }
-
-    /**
-     * @param pCoordinates the pCoordinates to set
-     */
-    public void setpCoordinates(PolarCoordinates pCoordinates) {
-        this.pCoordinates = pCoordinates;
-    }
-
-    /**
-     * @return the cCoordinates
-     */
-    public CartesianCoordinates getcCoordinates() {
-        return cCoordinates;
-    }
-
-    /**
-     * @param cCoordinates the cCoordinates to set
-     */
-    public void setcCoordinates(CartesianCoordinates cCoordinates) {
-        this.cCoordinates = cCoordinates;
-    }
-
-    /**
-     * @return the isMoon
-     */
-    public boolean isMoon() {
-        return isMoon;
-    }
-
-    /**
-     * @param isMoon the isMoon to set
-     */
-    public void setMoon(boolean isMoon) {
-        this.isMoon = isMoon;
-    }
-
-    /**
-     * @return the moonOf
-     */
-    public SpaceObject getMoonOf() {
-        return moonOf;
-    }
-
-    /**
-     * @param moonOf the moonOf to set
-     */
-    public void setMoonOf(SpaceObject moonOf) {
-        this.moonOf = moonOf;
-    }
 }
