@@ -7,15 +7,12 @@ import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
-import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.lang.Math;
-import javafx.scene.paint.PhongMaterial;
 
 
 public class SolarSystemSim extends Application {
@@ -24,9 +21,11 @@ public class SolarSystemSim extends Application {
     private static int AU=149597871;
     private static int index=0;
     public void start (Stage primaryStage){
+        //Test spheres, so we have an idea of the camera's position.
+
         //Jupiter
-        SpaceObject jupiter= new SpaceObject(1898,778.6,13.1,0.049,778.57);
-        jupiter.setDiameter(142984);
+        SpaceObject jupiter= new SpaceObject(1898,778.6*10,13.1,0.049,778.57*10);
+        jupiter.setDiameter(142984/10);
         PhongMaterial jupiterMat=new PhongMaterial();
         jupiterMat.setDiffuseColor(Color.ORANGE);
         jupiter.setMaterial(jupiterMat);
@@ -35,13 +34,13 @@ public class SolarSystemSim extends Application {
         PolarCoordinates jupiterpc=jupiter.orbitPos();
         CartesianCoordinates jupitercc=jupiter.polarToCartesian(jupiterpc);
 
-        jupiter.translateXProperty().set(jupitercc.getX());
-        jupiter.translateYProperty().set(jupitercc.getY());
-        jupiter.translateZProperty().set(jupitercc.getZ());
+        jupiter.translateXProperty().set(jupitercc.getX()*10);
+        jupiter.translateYProperty().set(jupitercc.getZ()*10);
+        jupiter.translateZProperty().set(jupitercc.getY()*10);
 
         //Saturn
-        SpaceObject saturn=new SpaceObject(568,1433.5,9.7,0.057,1433.53);
-        saturn.setDiameter(120536);
+        SpaceObject saturn=new SpaceObject(568,1433.5*10,9.7,0.057,1433.53*10);
+        saturn.setDiameter(120536/10);
         PhongMaterial saturnMat=new PhongMaterial();
         saturnMat.setDiffuseColor(Color.YELLOW);
         saturn.setMaterial(saturnMat);
@@ -50,13 +49,13 @@ public class SolarSystemSim extends Application {
         PolarCoordinates saturnpc=saturn.orbitPos();
         CartesianCoordinates saturncc=saturn.polarToCartesian(saturnpc);
 
-        saturn.translateXProperty().set(saturncc.getX());
-        saturn.translateYProperty().set(saturncc.getY());
-        saturn.translateZProperty().set(saturncc.getZ());
+        saturn.translateXProperty().set(saturncc.getX()*10);
+        saturn.translateYProperty().set(saturncc.getZ()*10);
+        saturn.translateZProperty().set(saturncc.getY()*10);
 
         //Uranus
-        SpaceObject uranus=new SpaceObject(86.8,2872.5,6.8,0.046,2872.46);
-        uranus.setDiameter(51118);
+        SpaceObject uranus=new SpaceObject(86.8,2872.5*10,6.8,0.046,2872.46*10);
+        uranus.setDiameter(51118/10);
         PhongMaterial uranusMat= new PhongMaterial();
         uranusMat.setDiffuseColor(Color.LIGHTBLUE);
         uranus.setMaterial(uranusMat);
@@ -65,13 +64,13 @@ public class SolarSystemSim extends Application {
         PolarCoordinates uranuspc=uranus.orbitPos();
         CartesianCoordinates uranuscc=uranus.polarToCartesian(uranuspc);
 
-        uranus.translateXProperty().set(uranuscc.getX());
-        uranus.translateYProperty().set(uranuscc.getY());
-        uranus.translateZProperty().set(uranuscc.getZ());
+        uranus.translateXProperty().set(uranuscc.getX()*10);
+        uranus.translateYProperty().set(uranuscc.getZ()*10);
+        uranus.translateZProperty().set(uranuscc.getY()*10);
 
         //Neptune
-        SpaceObject neptune= new SpaceObject(102,4495.1,5.4,0.011,4495.06);
-        neptune.setDiameter(49528);
+        SpaceObject neptune= new SpaceObject(102,4495.1*10,5.4,0.011,4495.06*10);
+        neptune.setDiameter(49528/10);
         PhongMaterial neptuneMat=new PhongMaterial();
         neptuneMat.setDiffuseColor(Color.BLUE);
         neptune.setMaterial(neptuneMat);
@@ -80,9 +79,9 @@ public class SolarSystemSim extends Application {
         PolarCoordinates neptunepc=neptune.orbitPos();
         CartesianCoordinates neptunecc= neptune.polarToCartesian(neptunepc);
 
-        neptune.translateXProperty().set(neptunecc.getX());
-        neptune.translateYProperty().set(neptunecc.getY());
-        neptune.translateZProperty().set(neptunecc.getZ());
+        neptune.translateXProperty().set(neptunecc.getX()*10);
+        neptune.translateYProperty().set(neptunecc.getY()*10);
+        neptune.translateZProperty().set(neptunecc.getZ()*10);
 
         System.out.println(saturncc.getX());
         System.out.println(saturncc.getY());
@@ -108,12 +107,14 @@ public class SolarSystemSim extends Application {
 
         //Feel free to update this as you add planets.
         camera.translateZProperty().set(400);
-        camera.translateYProperty().set(-3800000);
+        camera.translateYProperty().set(-2000000);
         camera.translateXProperty().set(-70);
         camera.setFarClip(900000000);
         camera.getTransforms().add(ry);
         scene.setCamera(camera);
 
+          //  sphere2.translateXProperty().set(-10*WIDTH);
+            //sphere2.translateYProperty().set(50*HEIGHT);
             Point3D axis=new Point3D(675,680,10);
 
 
@@ -141,6 +142,30 @@ public class SolarSystemSim extends Application {
             double tmp= (double) sphere2position[i];
             sphere1position[i]=i*10*Math.log((Math.pow(tmp,2)-1));
         }
+
+
+       /* primaryStage.addEventHandler(KeyEvent.KEY_PRESSED,event2 ->{
+            switch(event2.getCode()){
+                case A:
+                    if(index<140 && index>0) {
+                        jupiter.translateZProperty().set(sphere1position[index]);
+                        jupiter.translateXProperty().set(sphere1position[index]);
+                        //sphere2.translateZProperty().set(sphere2position[index]);
+                        index++;
+                    }else if(index==0){
+                        index++;
+                    }else{}
+                    break;
+                case D:
+                    if(index>0){
+                        jupiter.translateZProperty().set(sphere1position[index]);
+                        jupiter.translateXProperty().set(sphere1position[index]);
+                    //sphere2.translateZProperty().set(sphere2position[index]);
+                        index--;
+                    }
+                    break;
+            }
+        });*/
 
         primaryStage.setTitle("Mission Impossible");
         primaryStage.setScene(scene);
