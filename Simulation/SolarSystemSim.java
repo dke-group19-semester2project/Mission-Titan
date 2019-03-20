@@ -24,8 +24,6 @@ public class SolarSystemSim extends Application {
     private static int AU=149597871;
     private static int index=0;
     public void start (Stage primaryStage){
-        //Test spheres, so we have an idea of the camera's position.
-
         //Jupiter
         SpaceObject jupiter= new SpaceObject(1898,778.6,13.1,0.049,778.57);
         jupiter.setDiameter(142984);
@@ -116,8 +114,6 @@ public class SolarSystemSim extends Application {
         camera.getTransforms().add(ry);
         scene.setCamera(camera);
 
-          //  sphere2.translateXProperty().set(-10*WIDTH);
-            //sphere2.translateYProperty().set(50*HEIGHT);
             Point3D axis=new Point3D(675,680,10);
 
 
@@ -145,30 +141,6 @@ public class SolarSystemSim extends Application {
             double tmp= (double) sphere2position[i];
             sphere1position[i]=i*10*Math.log((Math.pow(tmp,2)-1));
         }
-
-
-       /* primaryStage.addEventHandler(KeyEvent.KEY_PRESSED,event2 ->{
-            switch(event2.getCode()){
-                case A:
-                    if(index<140 && index>0) {
-                        jupiter.translateZProperty().set(sphere1position[index]);
-                        jupiter.translateXProperty().set(sphere1position[index]);
-                        //sphere2.translateZProperty().set(sphere2position[index]);
-                        index++;
-                    }else if(index==0){
-                        index++;
-                    }else{}
-                    break;
-                case D:
-                    if(index>0){
-                        jupiter.translateZProperty().set(sphere1position[index]);
-                        jupiter.translateXProperty().set(sphere1position[index]);
-                    //sphere2.translateZProperty().set(sphere2position[index]);
-                        index--;
-                    }
-                    break;
-            }
-        });*/
 
         primaryStage.setTitle("Mission Impossible");
         primaryStage.setScene(scene);
