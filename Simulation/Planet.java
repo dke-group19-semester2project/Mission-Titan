@@ -20,6 +20,10 @@ public class Planet {
         this.zVelocity = zVelocity;
     }
 
+    public Planet(){
+        
+    }
+
     public double distance(Planet o) {
         double deltaX = o.getxPosition() - this.xPosition;
         double deltaY = o.getyPosition() - this.yPosition;
