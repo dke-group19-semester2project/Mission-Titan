@@ -30,22 +30,25 @@ public class Planet {
     public double xPosition(Planet o,double time) {
         double r = distance(o);
         double force = (G*o.getMass()*this.mass)/(r*r);
+        double dirX = (o.getxPosition()-this.xPosition) / r;
         xPosition = xPosition + (time * (xVelocity + (force/this.mass)*time));
-        xVelocity = xVelocity + ((force/this.mass)*time);
+        xVelocity = xVelocity + dirX * ((force/this.mass)*time);
         return xPosition;
     }
     public double yPosition(Planet o,double time) {
         double r = distance(o);
         double force = (G*o.getMass()*this.mass)/(r*r);
+        double dirY = (o.getxPosition()-this.xPosition) / r;
         yPosition = yPosition + (time * (yVelocity + (force/this.mass)*time));
-        yVelocity = yVelocity + ((force/this.mass)*time);
+        yVelocity = yVelocity + dirY * ((force/this.mass)*time);
         return yPosition;
     }
     public double zPosition(Planet o,double time) {
         double r = distance(o);
         double force = (G*o.getMass()*this.mass)/(r*r);
+        double dirZ = (o.getxPosition()-this.xPosition) / r;
         zPosition = zPosition + (time * (zVelocity + (force/this.mass)*time));
-        zVelocity = zVelocity + ((force/this.mass)*time);
+        zVelocity = zVelocity + dirZ * ((force/this.mass)*time);
         return zPosition;
     }
 
