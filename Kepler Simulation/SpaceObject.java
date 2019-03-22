@@ -56,12 +56,14 @@ public class SpaceObject /*extends Sphere*/ {
         calcR();
         this.orbitPeriod = orbitPeriod;
         angularSpeed = 2*Math.PI/orbitPeriod;
-        System.out.println(angularSpeed);
+        //System.out.println(angularSpeed);
         theta = Math.atan(yI/xI);
         if (xI<0) {
             theta+=Math.PI;
         }
         timeI = theta / angularSpeed;
+        System.out.println(time);
+        System.out.println(timeI);
     }
 
     public double[] orbitXY(double time) {
@@ -87,6 +89,14 @@ public class SpaceObject /*extends Sphere*/ {
             System.out.println("New X: " + points[i]);
             System.out.println("New Y: " + points[i+1]);
         }
+        if (!this.name.equals("Venus")){
+            Double[] tmp = new Double[2*daysPerOrbitalPeriod];
+            for (int i = 0; i<2*daysPerOrbitalPeriod; i+=2) {
+                tmp[2*daysPerOrbitalPeriod-i-2] = points[i];
+                tmp[2*daysPerOrbitalPeriod-i-1] = points[i+1];
+            }
+            points = tmp;
+        }
         return points;
     }
 
@@ -101,6 +111,14 @@ public class SpaceObject /*extends Sphere*/ {
             points[i+1] = (XY[1] + XYo[1])*distanceToPixelsMultiplier;
             System.out.println("New X: " + points[i]);
             System.out.println("New Y: " + points[i+1]);
+        }
+        if (!this.name.equals("Venus")){
+            Double[] tmp = new Double[2*daysPerOrbitalPeriod];
+            for (int i = 0; i<2*daysPerOrbitalPeriod; i+=2) {
+                tmp[2*daysPerOrbitalPeriod-i-2] = points[i];
+                tmp[2*daysPerOrbitalPeriod-i-1] = points[i+1];
+            }
+            points = tmp;
         }
         return points;
     }

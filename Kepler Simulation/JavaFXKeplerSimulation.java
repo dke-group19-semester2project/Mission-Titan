@@ -219,7 +219,7 @@ public class JavaFXKeplerSimulation extends Application{
             Camera camera= new PerspectiveCamera();
             camera.translateXProperty().set(-WIDTH/2);
             camera.translateYProperty().set(-HEIGHT/2);
-            camera.translateZProperty().set(-2500);
+            camera.translateZProperty().set(-1500);
             scene.setCamera(camera);
 
             primaryStage.setTitle("Solar System");
