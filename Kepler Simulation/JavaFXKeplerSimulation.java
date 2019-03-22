@@ -183,7 +183,7 @@ public class JavaFXKeplerSimulation extends Application{
             saturnOrbit.setCycleCount(Animation.INDEFINITE);
             saturnOrbit.play();
 
-            /* TODO: TITAN (I already filled in the data so you just need to check that the getTrajectoryPoints method in the SpaceObject class works for a moon)
+            // TODO: TITAN (I already filled in the data so you just need to check that the getTrajectoryPoints method in the SpaceObject class works for a moon)
             double titanStartX = 2.255030407743145E-03;
             double titanStartY = 6.968540736485705E-03;
             int millisPerTitanYear = 16 * millisPerDay;
@@ -197,10 +197,10 @@ public class JavaFXKeplerSimulation extends Application{
             titanSphere.setMaterial(titanMaterial);
 
             Polygon titanPolygon = new Polygon();
-            Double[] titanTrajectory = titan.getTrajectoryPoints(16); // TODO: Fred: this is the method to get the points for trajectory. Check if this number of points makes sense and take more if necessary.
+            Double[] titanTrajectory = titan.getTrajectoryPoints(10759,saturn); // TODO: Fred: this is the method to get the points for trajectory. Check if this number of points makes sense and take more if necessary.
             titanPolygon.getPoints().addAll(titanTrajectory);
             PathTransition titanOrbit = new PathTransition();
-            titanOrbit.setDuration(Duration.millis(16*orbitAnimationMillisPerDay)); // The amount of time should be the same regardless of how many data points we use
+            titanOrbit.setDuration(Duration.millis(10759*orbitAnimationMillisPerDay)); // The amount of time should be the same regardless of how many data points we use
             titanOrbit.setAutoReverse(false);
             titanOrbit.setNode(titanSphere);
             titanOrbit.setPath(titanPolygon);
@@ -208,11 +208,11 @@ public class JavaFXKeplerSimulation extends Application{
             titanOrbit.setCycleCount(Animation.INDEFINITE);
             titanOrbit.play();
 
-            */
+            
 
 
 
-            Group root = new Group(sun, mercurySphere, venusSphere, earthSphere, marsSphere, jupiterSphere, saturnSphere);
+            Group root = new Group(sun, mercurySphere, venusSphere, earthSphere, marsSphere, jupiterSphere, saturnSphere, titanSphere);
             Scene scene = new Scene(root,WIDTH, HEIGHT);
             scene.setFill(Color.BLACK);
 

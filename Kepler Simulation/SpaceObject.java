@@ -55,7 +55,8 @@ public class SpaceObject /*extends Sphere*/ {
         this.orbitalEccentricity = eccentricity;
         calcR();
         this.orbitPeriod = orbitPeriod;
-        angularSpeed = 2*Math.PI*a/orbitPeriod;
+        angularSpeed = 2*Math.PI/orbitPeriod;
+        System.out.println(angularSpeed);
         theta = Math.atan(yI/xI);
         if (xI<0) {
             theta+=Math.PI;
@@ -83,6 +84,21 @@ public class SpaceObject /*extends Sphere*/ {
             double[] XY = orbitXY(i*millisPerDay);
             points[i] = XY[0]*distanceToPixelsMultiplier;
             points[i+1] = XY[1]*distanceToPixelsMultiplier;
+            System.out.println("New X: " + points[i]);
+            System.out.println("New Y: " + points[i+1]);
+        }
+        return points;
+    }
+
+    public Double[] getTrajectoryPoints(int daysPerOrbitalPeriod,SpaceObject o) {
+        Double[] points = new Double[2*daysPerOrbitalPeriod];
+        double distanceToPixelsMultiplier = (Math.pow(10,2));
+        System.out.println("Trajectory for planet " + this.name);
+        for (int i=0; i<2*daysPerOrbitalPeriod; i=i+2) {
+            double[] XY = this.orbitXY(i*millisPerDay);
+            double[] XYo = o.orbitXY(i*millisPerDay);
+            points[i] = (XY[0] + XYo[0])*distanceToPixelsMultiplier;
+            points[i+1] = (XY[1] + XYo[1])*distanceToPixelsMultiplier;
             System.out.println("New X: " + points[i]);
             System.out.println("New Y: " + points[i+1]);
         }
