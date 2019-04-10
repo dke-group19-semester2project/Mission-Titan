@@ -16,26 +16,19 @@ public class Star implements SpaceObject {
     }
     
     public void updateForce(List<SpaceObject> objectList) {     //force = G*M1*M2/r^2
-        Vector forces = new Vector(0, 0, 0);
-        for (SpaceObject object : objectList) {
-            if (this != object) {
-                double force = (gravitationalConstant*this.getMass()*object.getMass())/(Math.pow(object.getPosition().substractVector(this.getPosition()).getDistance(), 2));
-                forces = forces.addVector((object.getPosition().substractVector(this.getPosition())).normalizeVector().multiply(force));
-            }
-        }
-        this.setForce(forces);
+      
     }
 
     public void updateAcceleration() {  //acceleration = force/mass     (a=F/m)
-        this.setAcceleration(this.force.multiply(1/this.getMass()));
+        
     }
 
     public void updateVelocity(double time) {      //velocity = velocity + accelration*time
-        this.setVelocity(this.getVelocity().addVector(this.getAcceleration().multiply(time)));
+        
     }
 
     public void updatePosition(double time) {      //position = position + velocity*time
-        this.setPosition(this.getPosition().addVector(this.getVelocity().multiply(time)));
+        
     }
 
       /**
