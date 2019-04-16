@@ -14,7 +14,7 @@ public class ControllerTest {
         for (int i=0; i<20; i++) {
             probe.updatePositionAndVelocity(1, titan);
             System.out.println(probe.getPosition().toString());
-            //System.out.println("Velocity:   " + probe.getVelocity().toString());
+            System.out.println("Velocity:   " + probe.getVelocity().toString());
         }
 
     }
