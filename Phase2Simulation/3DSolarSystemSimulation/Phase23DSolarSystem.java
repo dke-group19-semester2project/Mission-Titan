@@ -4,7 +4,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
-
+//Hold down A to move forward in time and D to move backwards in time.
 
 
 public class Phase23DSolarSystem extends Application {
