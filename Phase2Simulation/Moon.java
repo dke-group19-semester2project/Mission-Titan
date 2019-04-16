@@ -9,7 +9,7 @@ public class Moon implements SpaceObject {
     double mass;
     final private double gravitationalConstant = 6.67408E-11; //m^3/kg*s^2
 
-    public Moon(double px, double py, double pz, double vx, double vy, double vz) {
+    public Moon(double px, double py, double pz, double vx, double vy, double vz, double mass) {
         position = new Vector(px, py, pz);
         velocity = new Vector(vx, vy, vz);
     }

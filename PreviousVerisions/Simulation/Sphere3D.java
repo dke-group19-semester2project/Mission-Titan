@@ -1,3 +1,4 @@
+import javafx.scene.paint.PhongMaterial;
 import javafx.animation.RotateTransition;
 import javafx.application.Application;
 import javafx.scene.*;
@@ -18,7 +19,15 @@ public class Sphere3D extends Application {
     private static int index1=0;
     public void start (Stage primaryStage){
         Sphere sphere1= new Sphere(700);
+        PhongMaterial sphere1Mat= new PhongMaterial();
+        sphere1Mat.setDiffuseColor(Color.YELLOW);
+        sphere1.setMaterial(sphere1Mat);
+
         Sphere sphere2= new Sphere(50);
+        PhongMaterial sphere2Mat= new PhongMaterial();
+        sphere2Mat.setDiffuseColor(Color.DARKKHAKI);
+        sphere2.setMaterial(sphere2Mat);
+
         Box probe=new Box(50,50,50);
         Group group = new Group();
         group.getChildren().add(sphere1);
@@ -27,7 +36,7 @@ public class Sphere3D extends Application {
 
         Camera camera= new PerspectiveCamera();
         Scene scene= new Scene(group, WIDTH, HEIGHT);
-        scene.setFill(Color.SILVER);
+        scene.setFill(Color.BLACK);
         scene.setCamera(camera);
 
         primaryStage.setTitle("Genuine Coder");
@@ -41,6 +50,7 @@ public class Sphere3D extends Application {
             Point3D axis=new Point3D(675,680,10);
             probe.translateXProperty().set(WIDTH/2);
             probe.translateYProperty().set(WIDTH/2);
+
 
         RotateTransition rt= new RotateTransition(Duration.millis(3000),sphere1);
         rt.setByAngle(180);
