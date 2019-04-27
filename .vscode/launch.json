@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - SolarSystem",
+            "request": "launch",
+            "mainClass": "SolarSystem"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - JavaFXTest",
             "request": "launch",
             "mainClass": "JavaFXTest"

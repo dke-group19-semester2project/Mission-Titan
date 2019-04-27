@@ -29,16 +29,21 @@ public class SolarSystem {
         listOfObjects.add(titan);
     }
 
-    public void updateSolarSystem() {
-
+    public void updateSolarSystem(double TIME_STEP) {
+        for (SpaceObject spaceObject : this.listOfObjects) {
+            spaceObject.updateForce(this.listOfObjects);
+            spaceObject.updateAcceleration();
+            spaceObject.updateVelocity(TIME_STEP);
+            spaceObject.updatePosition(TIME_STEP);
+        }
     }
 
     public static void main(String args[]) {
         final double TIME_STEP = 1;
         final double YEAR_TO_SECONDS = 365*86400;
-
+        
         SolarSystem solarSystem = new SolarSystem();
-        for (int i = 0; i<YEAR_TO_SECONDS; i++) {
+        /*for (int i = 0; i<YEAR_TO_SECONDS; i++) {
             for (SpaceObject spaceObject : solarSystem.listOfObjects) {
                 spaceObject.updateForce(solarSystem.listOfObjects);
                 spaceObject.updateAcceleration();
@@ -48,6 +53,13 @@ public class SolarSystem {
         }
         System.out.println(solarSystem.listOfObjects.get(5).getPosition().getX());
         System.out.println(solarSystem.listOfObjects.get(5).getPosition().getY());
-        System.out.println(solarSystem.listOfObjects.get(5).getPosition().getZ());
+        System.out.println(solarSystem.listOfObjects.get(5).getPosition().getZ());*/
+
+        Hillclimb test = new Hillclimb(solarSystem, new Rocket(-2.521092863852298E+10,  1.449279195712076E+11, -6.164888475164771E+05, -2.983983333368269E+05, -5.207633918704476E+04,  6.169062303484907E-01, 5.972E+3), solarSystem.getSpaceObjectList().get(8));
+        test.hillclimb(test.getProbe());
+    }
+
+    public List<SpaceObject> getSpaceObjectList() {
+        return this.listOfObjects;
     }
 }

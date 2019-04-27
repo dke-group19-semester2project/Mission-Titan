@@ -12,6 +12,13 @@ public class Vector {
         this.distance = Math.sqrt(x*x + y*y + z*z);
     }
 
+    public Vector() {
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+        this.distance = 0;
+    }
+
     public Vector addVector(Vector vector) {
         Vector result = new Vector(0, 0, 0);
         result.x = this.x + vector.x;
