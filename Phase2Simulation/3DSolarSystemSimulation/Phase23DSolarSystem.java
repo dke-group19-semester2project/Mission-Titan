@@ -1,14 +1,25 @@
 import javafx.application.Application;
 import javafx.scene.*;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
+import javafx.scene.layout.Background;
+import javafx.geometry.Point3D;
+import javafx.scene.paint.PhongMaterial;
+
 //Scaled to 10E3
 
 public class Phase23DSolarSystem extends Application {
-
+    
     private static final int WIDTH=1400;
     private static final int HEIGHT=800;
     private int index1=0;
@@ -23,17 +34,24 @@ public class Phase23DSolarSystem extends Application {
         camera.translateXProperty().set(-WIDTH/2);
         camera.translateYProperty().set(50000);
         camera.translateZProperty().set(-250000);
+        camera.setFarClip(500000000);
         //Test ScaleX
         //Must scale Earth and Moon to 63 and 17 to see the change
-        /*camera.translateXProperty().set(-WIDTH/4);
-        camera.translateYProperty().set(5000);
-        camera.translateZProperty().set(-25000);*/
-        camera.setFarClip(900000000);
+        /*camera.translateXProperty().set(-WIDTH/2);
+        camera.translateYProperty().set(15000);
+        camera.translateZProperty().set(-10000);
+        camera.setFarClip(500000000);*/
 
         //Solar System
         BorderPane root= new BorderPane();
         //Sun
         Star sun = new Star(0D,0D,0D,0D,0D,0D, 1.989E30,695);
+        Image suny= new Image("2k_sun.jpg");
+       
+        //Source: https://www.solarsystemscope.com/textures/
+        PhongMaterial sunSkin= new PhongMaterial();
+        sunSkin.setDiffuseMap(suny);
+        sun.setMaterial(sunSkin);
         //Mercury. Add some sort of marker! It's too small.
         Planet mercury = new Planet(-2.105262111032039E+10, -6.640663808353403E+10, -3.492446023382954E+09,  3.665298706393840E+04, -1.228983810111077E+04, -4.368172898981951E+03, 3.301E+23,700);
         mercury.setTranslateX(-2.105262111032039E+3);
@@ -49,11 +67,27 @@ public class Phase23DSolarSystem extends Application {
         earth.setTranslateX(-2.521092863852298E+3);
         earth.setTranslateY(1.449279195712076E+4);
         earth.setTranslateZ(-6.164888475164771E-02);
+        
+        Point3D earthAxis= new Point3D(1,0,1);
+        earth.setRotationAxis(earthAxis);
+        earth.setRotate(103);
+        
+        Image earthy= new Image("world.topo.200412.3x5400x2700.jpg");
+        //Source: https://visibleearth.nasa.gov/view.php?id=73909
+        PhongMaterial earthSkin= new PhongMaterial();
+        earthSkin.setDiffuseMap(earthy);
+        earth.setMaterial(earthSkin);
         //Moon
         Planet moon = new Planet(-2.552857888050620E+10,  1.446860363961675E+11,  3.593933517466486E+07, -2.927904627038706E+04, -6.007566180814270E+03, -1.577640655646029E00, 7.349E+22,350);
         moon.setTranslateX(-2.552857888050620E+3);
         moon.setTranslateY(1.446860363961675E+4);
         moon.setTranslateZ(3.593933517466486);
+
+        Image moony= new Image("2k_moon.jpg");
+        //Source: https://www.solarsystemscope.com/textures/
+        PhongMaterial moonSkin= new PhongMaterial();
+        moonSkin.setDiffuseMap(moony);
+        moon.setMaterial(moonSkin);
         //Mars
         Planet mars = new Planet(2.079950549908331E+11, -3.143009561106971E+09, -5.178781160069674E+09,  1.295003532851602E+03,  2.629442067068712E+04,  5.190097267545717E+02, 6.417E+23,700);
         mars.setTranslateX(2.079950549908331E+4);
@@ -135,6 +169,7 @@ public class Phase23DSolarSystem extends Application {
         phoebe.setTranslateY(9.797584943042043E+04);
         phoebe.setTranslateZ(-5.388629873572934E+03);
 
+        //Adding Background Image
         Group planets= new Group();
         planets.getChildren().add(sun);
         planets.getChildren().add(mercury);
@@ -159,6 +194,7 @@ public class Phase23DSolarSystem extends Application {
         planets.getChildren().add(phoebe);
         SubScene solarSystem=new SubScene(planets,WIDTH,HEIGHT);
         solarSystem.setCamera(camera);
+        solarSystem.setFill(Color.BLACK);
         root.setCenter(solarSystem);
 
         //Creating a list of celestial bodies
@@ -184,6 +220,7 @@ public class Phase23DSolarSystem extends Application {
         listOfObjects.add(dione);
         listOfObjects.add(rhea);
         listOfObjects.add(phoebe);
+
 
         //Creating the scene
         Scene scene=new Scene(root,WIDTH,HEIGHT);

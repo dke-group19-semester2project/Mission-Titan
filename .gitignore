@@ -1,1 +1,7 @@
 *.iml
+Phase2Simulation/Moon.class
+Phase2Simulation/Planet.class
+Phase2Simulation/SolarSystem.class
+Phase2Simulation/SpaceObject.class
+Phase2Simulation/Star.class
+Phase2Simulation/Vector.class
