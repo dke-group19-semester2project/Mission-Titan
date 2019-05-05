@@ -19,7 +19,7 @@ import javafx.scene.paint.PhongMaterial;
 //Scaled to 10E3
 
 public class Phase23DSolarSystem extends Application {
-    
+
     private static final int WIDTH=1400;
     private static final int HEIGHT=800;
     private int index1=0;
@@ -47,7 +47,7 @@ public class Phase23DSolarSystem extends Application {
         //Sun
         Star sun = new Star(0D,0D,0D,0D,0D,0D, 1.989E30,695);
         Image suny= new Image("2k_sun.jpg");
-       
+
         //Source: https://www.solarsystemscope.com/textures/
         PhongMaterial sunSkin= new PhongMaterial();
         sunSkin.setDiffuseMap(suny);
@@ -57,26 +57,41 @@ public class Phase23DSolarSystem extends Application {
         mercury.setTranslateX(-2.105262111032039E+3);
         mercury.setTranslateY(-6.640663808353403E+3);
         mercury.setTranslateZ(-3.492446023382954E+2);
+
+        //Source: https://www.solarsystemscope.com/textures/
+        Image mercuryy= new Image("2k_mercury.jpg");
+        PhongMaterial mercurySkin= new PhongMaterial();
+        mercurySkin.setDiffuseMap(mercuryy);
+        mercury.setMaterial(mercurySkin);
+
         //Venus
         Planet venus = new Planet(-1.075055502695123E+11, -3.366520720591562E+09,  6.159219802771119E+09,  8.891598046362434E+02, -3.515920774124290E+04, -5.318594054684045E+02, 4.867E+24,700);
         venus.setTranslateX(-1.075055502695123E+4);
         venus.setTranslateY(-3.366520720591562E+2);
         venus.setTranslateZ(6.159219802771119E+2);
+
+        //Source: https://www.solarsystemscope.com/textures/
+        Image venusy= new Image("2k_venus_surface.jpg");
+        PhongMaterial venusSkin= new PhongMaterial();
+        venusSkin.setDiffuseMap(venusy);
+        venus.setMaterial(venusSkin);
+
         //Earth
         Planet earth = new Planet(-2.521092863852298E+10,  1.449279195712076E+11, -6.164888475164771E+05, -2.983983333368269E+04, -5.207633918704476E+03,  6.169062303484907E-02, 5.972E+24, 700);
         earth.setTranslateX(-2.521092863852298E+3);
         earth.setTranslateY(1.449279195712076E+4);
         earth.setTranslateZ(-6.164888475164771E-02);
-        
+
         Point3D earthAxis= new Point3D(1,0,1);
         earth.setRotationAxis(earthAxis);
         earth.setRotate(103);
-        
+
         Image earthy= new Image("world.topo.200412.3x5400x2700.jpg");
         //Source: https://visibleearth.nasa.gov/view.php?id=73909
         PhongMaterial earthSkin= new PhongMaterial();
         earthSkin.setDiffuseMap(earthy);
         earth.setMaterial(earthSkin);
+
         //Moon
         Planet moon = new Planet(-2.552857888050620E+10,  1.446860363961675E+11,  3.593933517466486E+07, -2.927904627038706E+04, -6.007566180814270E+03, -1.577640655646029E00, 7.349E+22,350);
         moon.setTranslateX(-2.552857888050620E+3);
@@ -88,16 +103,31 @@ public class Phase23DSolarSystem extends Application {
         PhongMaterial moonSkin= new PhongMaterial();
         moonSkin.setDiffuseMap(moony);
         moon.setMaterial(moonSkin);
+
         //Mars
         Planet mars = new Planet(2.079950549908331E+11, -3.143009561106971E+09, -5.178781160069674E+09,  1.295003532851602E+03,  2.629442067068712E+04,  5.190097267545717E+02, 6.417E+23,700);
         mars.setTranslateX(2.079950549908331E+4);
         mars.setTranslateY(-3.143009561106971E+2);
         mars.setTranslateZ(-5.178781160069674E+2);
+
+        //Source: https://www.solarsystemscope.com/textures/
+        Image marsy= new Image("2k_mars.jpg");
+        PhongMaterial marsSkin= new PhongMaterial();
+        marsSkin.setDiffuseMap(marsy);
+        mars.setMaterial(marsSkin);
+
         //Mars Moon: Phobos
         Planet phobos= new Planet(2.080001728304922E+11,-3.135629529907857E+09,-5.180946414782474E+09,-2.461795389080246E+02,2.758970765510455E+04,1.326588322007167E+03,1.06E+16,350);
         phobos.setTranslateX(2.080001728304922E+04);
         phobos.setTranslateY(-3.135629529907857E+02);
         phobos.setTranslateZ(-5.180946414782474E+02);
+
+        //Source: https://nasa3d.arc.nasa.gov/images
+        Image phobosy= new Image("mar1kuu2.jpg");
+        PhongMaterial phobosSkin= new PhongMaterial();
+        phobosSkin.setDiffuseMap(phobosy);
+        phobos.setMaterial(phobosSkin);
+        
         //Mars Moon: Demios
         Planet demios= new Planet( 2.079758459552988E+11,-3.134519020859756E+09 ,-5.168323663883276E+09, 8.310732201509531E+02,2.503674676157639E+04,  6.872885887768234E+02,2.4E+15,350);
         demios.setTranslateX(2.079758459552988E+04);
@@ -108,6 +138,13 @@ public class Phase23DSolarSystem extends Application {
         jupiter.setTranslateX(5.989091595026654E+4);
         jupiter.setTranslateY(4.391225931434094E+4);
         jupiter.setTranslateZ(-1.523254615467653E+03);
+
+        //Source: https://www.solarsystemscope.com/textures/
+        Image jupitery= new Image("2k_jupiter.jpg");
+        PhongMaterial jupiterSkin= new PhongMaterial();
+        jupiterSkin.setDiffuseMap(jupitery);
+        jupiter.setMaterial(jupiterSkin);
+        
         //Jupiter Moon: Io
         Planet io= new Planet(5.989539518409647E+11,4.387023144998344E+11,-1.524679648427427E+10, 9.283361803632189E+03,1.303819812527103E+04,4.583205514926929E+02,8.932E+22,350);
         io.setTranslateX(5.989539518409647E+04);
@@ -133,6 +170,13 @@ public class Phase23DSolarSystem extends Application {
         saturn.setTranslateX(9.587063371332250E+4);
         saturn.setTranslateY(9.825652108702583E+4);
         saturn.setTranslateZ(-5.522065686935234E+3);
+
+        //Source: https://www.solarsystemscope.com/textures/
+        Image saturny= new Image("2k_saturn.jpg");
+        PhongMaterial saturnSkin= new PhongMaterial();
+        saturnSkin.setDiffuseMap(saturny);
+        saturn.setMaterial(saturnSkin);
+
         //Saturn Moon:Titan
         Planet titan = new Planet( 9.579293831681823E+11,  9.834677749678675E+11, -5.561032276665545E+10, -1.170810292990584E+04,  3.955109586303735E+03,  2.034356139087789E+03, 13455.3E+19,350);
         titan.setTranslateX(9.579293831681823E+4);
@@ -543,7 +587,7 @@ public class Phase23DSolarSystem extends Application {
                     break;
             }
         });
-        }
+    }
     public static void main(String[] args) {
         launch(args);
     }
