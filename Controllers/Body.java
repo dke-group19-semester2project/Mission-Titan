@@ -12,6 +12,7 @@ public class Body {
     private Vector position; // Cartesian coordinates as m values.
     private Vector velocity; // Cartesian coordinates as m/s.
     double massInKg;
+    public static int simulationTime = 0;
 
     public Body (Vector initialPosition, Vector initialVelocity, double mass) {
         position = initialPosition;
@@ -26,21 +27,24 @@ public class Body {
     }
     /*
     Use force and acceleration to update the position and velocity vectors based on the time step
+    TODO: update this class to take into account the impulse from thrusters
+    TODO: update to take into account the effect of other celestial bodies
      */
-    public void updatePositionAndVelocity (int timeAsSeconds, Body attractingBody) {
+    public void updatePositionAndVelocity (int time, Body attractingBody) {
+        simulationTime = simulationTime+time;
         Vector acceleration = getAcceleration(attractingBody);
-        Vector changeInVelocity = getChangeInVelocity(acceleration, timeAsSeconds);
+        Vector changeInVelocity = getChangeInVelocity(acceleration, time);
         Vector updatedVelocity = sumOf(this.getVelocity(), changeInVelocity);
         this.velocity = updatedVelocity;
-        Vector changeInPosition = getChangeInPosition(updatedVelocity, timeAsSeconds);
+        Vector changeInPosition = getChangeInPosition(updatedVelocity, time);
         Vector updatedPosition = sumOf(this.getPosition(), changeInPosition);
         this.position = updatedPosition;
     }
-    public Vector getChangeInVelocity (Vector acceleration, int timeAsSeconds) {
-        return acceleration.multipliedBy(timeAsSeconds);
+    public Vector getChangeInVelocity (Vector acceleration, int time) {
+        return acceleration.multipliedBy(time);
     }
-    public Vector getChangeInPosition (Vector velocity, int timeAsSeconds) {
-        return velocity.multipliedBy(timeAsSeconds);
+    public Vector getChangeInPosition (Vector velocity, int time) {
+        return velocity.multipliedBy(time);
     }
     public Vector getAcceleration (Body attractingBody) {
         // F=ma => a=F/m
@@ -58,10 +62,14 @@ public class Body {
     Magnitude of the force as a scalar value
      */
     public double computeForceMagnitude (Body attractingBody) {
-        Vector distanceVector = differenceOf(this.getPosition(), attractingBody.getPosition());
-        double distance = distanceVector.getEuclideanLength();
+        double distance = getDistanceFrom(attractingBody);
         double forceMagnitude = -(G*this.massInKg*attractingBody.massInKg)/Math.pow(distance,2);
         return forceMagnitude;
+    }
+    public double getDistanceFrom (Body attractingBody) {
+        Vector distanceVector = differenceOf(this.getPosition(), attractingBody.getPosition());
+        double distance = distanceVector.getEuclideanLength();
+        return distance;
     }
     /*
     Direction of the force as a unit vector
