@@ -12,12 +12,17 @@ public class Body {
     private Vector position; // Cartesian coordinates as m values.
     private Vector velocity; // Cartesian coordinates as m/s.
     double massInKg;
+    double diameter;
     public static int simulationTime = 0;
 
-    public Body (Vector initialPosition, Vector initialVelocity, double mass) {
+    public Body (Vector initialPosition, Vector initialVelocity, double mass, double diameter) {
         position = initialPosition;
         velocity = initialVelocity;
         massInKg = mass;
+        this.diameter = diameter;
+    }
+    public double getDiameter () {
+        return diameter;
     }
     public Vector getPosition () {
         return position;
@@ -30,6 +35,13 @@ public class Body {
     TODO: update this class to take into account the impulse from thrusters
     TODO: update to take into account the effect of other celestial bodies
      */
+    /*
+        The objective of method useMainThrusters is to update velocity (without taking another time step).
+        For now the spacecraft is presumed to be correctly oriented to either increase or reduce the speed.
+     */
+    public void useMainThrusters (Vector deltaV) {
+        velocity = sumOf(velocity, deltaV);
+    }
     public void updatePositionAndVelocity (int time, Body attractingBody) {
         simulationTime = simulationTime+time;
         Vector acceleration = getAcceleration(attractingBody);
