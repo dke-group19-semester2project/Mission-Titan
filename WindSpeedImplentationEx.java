@@ -7,9 +7,9 @@ public class WindSpeedImplentationEx{
         final double MISSION_DURATION=86400;
         final double TIME_STEP=1;//In seconds
         //Need to use position data of Titan, but relative to Saturn for simplicity.
-        Planet titan= new Planet(-7.769539650426797E+08,9.025640976089063E+08,-3.896658973030882E+08,-4.279217248263016E+03,-2.783704647125639E+03,1.856691783450268E+03,1.342E23,0);
+        SpaceObject titan= new SpaceObject (-7.769539650426797E+08,9.025640976089063E+08,-3.896658973030882E+08,-4.279217248263016E+03,-2.783704647125639E+03,1.856691783450268E+03,1.342E23);
         //Saturn is the center of this celestial system.
-        Star saturn = new Star(0D,0D,0D,0D,0D,0D, 5.68E26,695);
+        SpaceObject saturn = new SpaceObject (0D,0D,0D,0D,0D,0D, 5.68E26);
 
         //Same as the solar system construct.
         ArrayList<SpaceObject> titanSystem= new ArrayList<SpaceObject>();
@@ -30,7 +30,7 @@ public class WindSpeedImplentationEx{
         for (int i = 0; i<MISSION_DURATION; i++) {
             if(HEIGHT>0){
                 for (SpaceObject spaceObject : titanSystem) {
-                    spaceObject.updateForce(titanSystem);
+                    spaceObject.updateForces(titanSystem);
                     spaceObject.updateAcceleration();
                     spaceObject.updateVelocity(TIME_STEP);
                     spaceObject.updatePosition(TIME_STEP);
