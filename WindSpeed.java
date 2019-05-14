@@ -8,8 +8,8 @@ public class WindSpeed{
     private double latitude;//Latitude on the target body.(Units: Degrees)
     private double xPressureGradientForce; //x component of the Pressure Gradient Force (Units: N)
     private double yPressureGradientForce; //y component of the Pressure Gradient Force(Units: N)
-    private double xWindVelocityCF;//x-Component of wind velocity above 800m (Units: m/s)
-    private double yWindVelocityCF;//y-Component of wind velocity above 800m (Units: m/s)
+    private double xWindVelocityCF;//x-Component of wind velocity (Units: m/s)
+    private double yWindVelocityCF;//y-Component of wind velocity (Units: m/s)
     private double gravitationalConstant = 6.67408E-11; //m^3/kg*s^2
     private double atmosphereHeight=1500E3;//Units: m
     private double titanRadius=2.56E6;//Units: m
